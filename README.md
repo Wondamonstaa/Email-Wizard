@@ -128,3 +128,18 @@ Choose the plan that fits your needs:
    - Predictive Email Prioritization
    - Email Intent Classifier
    - Priority Support
+
+## Setup
+
+To run this project locally, follow these steps:
+
+1. Clone the repository
+2. Install dependencies with `npm install`
+3. Create a `.env` file in the project root
+4. Add your OpenAI API key to the `.env` file:
+   ```
+   REACT_APP_OPENAI_API_KEY=your_actual_api_key_here
+   ```
+5. Run the development server with `npm start`
+
+Note: Never commit your actual API keys to the repository. The `.env` file is ignored by git to prevent accidental exposure of sensitive information.

@@ -13,6 +13,11 @@ Email Wizard Pro is an AI-powered email management tool designed to boost produc
 - **Attachment Summary**: Quick overviews of attached documents
 - **Language Translation**: Instant translation of emails
 - **Time-to-Read Estimate**: Estimated reading time for each email
+- **AI-Powered Email Triage**: Automatically sort emails into action-based categories and learn from user behavior
+- **Email Chain Summarizer**: Provide concise summaries of long email threads, highlighting key points and decisions
+- **Contextual Contact Insights**: Analyze communication patterns and provide personalized talking points for each contact
+- **Predictive Email Prioritization**: Predict important emails and suggest optimal times to address them
+- **Email Intent Classifier**: Automatically classify and route emails based on their intent (e.g., request, complaint, sales inquiry)
 
 ## Project Structure
 
@@ -97,3 +102,29 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Contact
 
 For support or queries, please contact us at support@emailwizardpro.com.
+
+## Pricing
+
+Choose the plan that fits your needs:
+
+1. **Basic Plan**: $4.99/month
+   - Smart Summaries
+   - Priority Sorting
+   - Topic Categorization
+   - Sentiment Analysis
+
+2. **Pro Plan**: $9.99/month
+   - All Basic features
+   - Meeting Scheduler
+   - Smart Reminders
+   - Attachment Summary
+   - Language Translation
+
+3. **Enterprise Plan**: $17.99/month
+   - All Pro features
+   - AI-Powered Email Triage
+   - Email Chain Summarizer
+   - Contextual Contact Insights
+   - Predictive Email Prioritization
+   - Email Intent Classifier
+   - Priority Support

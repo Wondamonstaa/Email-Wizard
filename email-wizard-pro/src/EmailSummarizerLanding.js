@@ -1,30 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "./components/ui/Button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/Card"
 import { Mail, List, Calendar, Bell, Check, Globe, Clock, FileText, Users, Zap, Sun, Moon, ArrowRight } from 'lucide-react'
 import { useTheme } from './contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import OpenAIService from './services/OpenAIService';
+import { Link } from 'react-router-dom';
+import Features from './components/Features';
 
 const EmailSummarizerLanding = () => {
   const { isDarkMode, toggleDarkMode } = useTheme();
-  const [emailText, setEmailText] = useState('');
-  const [summary, setSummary] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const handleSummarize = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await OpenAIService.summarizeEmail(emailText);
-      setSummary(result);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
@@ -39,7 +23,6 @@ const EmailSummarizerLanding = () => {
             <ul className="flex space-x-8 mr-8">
               <li><a href="#features" className={`hover:text-primary-500 transition-colors duration-200 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Features</a></li>
               <li><a href="#pricing" className={`hover:text-primary-500 transition-colors duration-200 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Pricing</a></li>
-              <li><a href="#demo" className={`hover:text-primary-500 transition-colors duration-200 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Demo</a></li>
               <li><a href="#contact" className={`hover:text-primary-500 transition-colors duration-200 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Contact</a></li>
             </ul>
             <Button onClick={toggleDarkMode} variant="ghost" size="icon" className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>
@@ -80,66 +63,17 @@ const EmailSummarizerLanding = () => {
             Powerful AI-Driven Features
           </h2>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <FeatureCard icon={<Mail />} title="Smart Summaries" description="Get concise, AI-generated summaries of your emails, highlighting key points and action items." />
-            <FeatureCard icon={<List />} title="Priority Sorting" description="Our AI automatically categorizes your emails by importance, helping you focus on what matters most." />
-            <FeatureCard icon={<Zap />} title="Topic Categorization" description="Automatically organize emails into custom categories like Work, Personal, Finance, and Travel." />
-            <FeatureCard icon={<Users />} title="Sentiment Analysis" description="Understand the tone of your emails with quick sentiment scores (positive, neutral, negative)." />
-            <FeatureCard icon={<Calendar />} title="Meeting Scheduler" description="Detect scheduling requests and seamlessly integrate with your calendar for easy meeting planning." />
-            <FeatureCard icon={<Bell />} title="Smart Reminders" description="Never miss an important follow-up with AI-powered reminders based on email content." />
-            <FeatureCard icon={<FileText />} title="Attachment Summary" description="Get brief overviews of attached documents without opening them." />
-            <FeatureCard icon={<Globe />} title="Language Translation" description="Instantly translate emails from foreign languages to your preferred language." />
-            <FeatureCard icon={<Clock />} title="Time-to-Read Estimate" description="Know at a glance how long it will take to read each email." />
-            <FeatureCard icon={<Zap />} title="AI-Powered Email Triage" description="Automatically sort emails into action-based categories and learn from user behavior." />
-            <FeatureCard icon={<List />} title="Email Chain Summarizer" description="Provide concise summaries of long email threads, highlighting key points and decisions." />
-            <FeatureCard icon={<Users />} title="Contextual Contact Insights" description="Analyze communication patterns and provide personalized talking points for each contact." />
-            <FeatureCard icon={<Clock />} title="Predictive Email Prioritization" description="Predict important emails and suggest optimal times to address them." />
-            <FeatureCard icon={<Mail />} title="Email Intent Classifier" description="Automatically classify and route emails based on their intent (e.g., request, complaint, sales inquiry)." />
+            <FeatureCard icon={<Mail />} title="Email Summarizer" description="Get concise, AI-generated summaries of your emails, highlighting key points and action items." link="/feature/summarizer" />
+            <FeatureCard icon={<Users />} title="Sentiment Analysis" description="Understand the tone of your emails with quick sentiment scores (positive, neutral, negative)." link="/feature/sentiment-analysis" />
+            <FeatureCard icon={<Users />} title="Contact Insights" description="Analyze communication patterns and provide personalized talking points for each contact." link="/feature/contact-insights" />
+            <FeatureCard icon={<Mail />} title="Intent Classifier" description="Automatically classify and route emails based on their intent (e.g., request, complaint, sales inquiry)." link="/feature/intent-classifier" />
+            <FeatureCard icon={<Zap />} title="Topic Categorization" description="Automatically organize emails into custom categories like Work, Personal, Finance, and Travel." link="/feature/topic-categorization" />
           </div>
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section id="demo" className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} transition-colors duration-300`}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-extrabold text-center mb-8">
-            Try Our Email Summarizer
-          </h2>
-          <Card className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-            <CardHeader>
-              <CardTitle>Enter your email text below</CardTitle>
-              <CardDescription>Our AI will generate a concise summary</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <textarea
-                placeholder="Paste your email content here..."
-                value={emailText}
-                onChange={(e) => setEmailText(e.target.value)}
-                rows={6}
-                className="w-full p-2 mb-4 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-              <Button onClick={handleSummarize} className="w-full" disabled={isLoading}>
-                {isLoading ? 'Summarizing...' : 'Summarize'}
-              </Button>
-            </CardContent>
-            {error && (
-              <CardFooter>
-                <p className="text-red-500">{error}</p>
-              </CardFooter>
-            )}
-            {summary && (
-              <CardFooter>
-                <div>
-                  <h3 className="font-bold mb-2">Summary:</h3>
-                  <p>{summary}</p>
-                </div>
-              </CardFooter>
-            )}
-          </Card>
-        </div>
-      </section>
-
       {/* Pricing Section */}
-      <section id="pricing" className={`py-20 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <section id="pricing" className={`py-20 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-extrabold text-center mb-10">
             Choose the Perfect Plan for You
@@ -211,9 +145,8 @@ const EmailSummarizerLanding = () => {
             <div>
               <h3 className="text-sm font-semibold uppercase tracking-wider">Product</h3>
               <ul className="mt-4 space-y-4">
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Features</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Pricing</a></li>
-                <li><a href="#" className="text-base text-gray-300 hover:text-white">Demo</a></li>
+                <li><a href="#features" className="text-base text-gray-300 hover:text-white">Features</a></li>
+                <li><a href="#pricing" className="text-base text-gray-300 hover:text-white">Pricing</a></li>
               </ul>
             </div>
             <div>
@@ -252,7 +185,7 @@ const EmailSummarizerLanding = () => {
   );
 };
 
-const FeatureCard = ({ icon, title, description }) => {
+const FeatureCard = ({ icon, title, description, link }) => {
   const { isDarkMode } = useTheme();
   return (
     <motion.div
@@ -265,12 +198,17 @@ const FeatureCard = ({ icon, title, description }) => {
           <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardContent>{description}</CardContent>
+        <CardFooter>
+          <Link to={link} className="w-full">
+            <Button className="w-full">Try Feature</Button>
+          </Link>
+        </CardFooter>
       </Card>
     </motion.div>
   );
 };
 
-const PricingCard = ({ title, price, description, features, isPopular = false, customCTA }) => {
+const PricingCard = ({ title, price, description, features, isPopular = false }) => {
   const { isDarkMode } = useTheme();
   return (
     <motion.div
@@ -299,7 +237,7 @@ const PricingCard = ({ title, price, description, features, isPopular = false, c
         </CardContent>
         <CardFooter>
           <Button className={`w-full ${isPopular ? 'bg-primary-500 hover:bg-primary-600' : ''} transition-colors duration-200`}>
-            {customCTA || `Choose ${title}`}
+            Choose {title}
           </Button>
         </CardFooter>
       </Card>

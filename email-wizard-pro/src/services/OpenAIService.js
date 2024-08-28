@@ -37,6 +37,34 @@ class OpenAIService {
       throw new Error('Failed to summarize email. Please try again later.');
     }
   }
+
+  async classifyEmailIntent(emailContent) {
+    try {
+      const response = await axios.post(
+        OPENAI_API_URL,
+        {
+          model: "gpt-3.5-turbo",
+          messages: [
+            { role: "system", content: "You are a helpful assistant that classifies email intents." },
+            { role: "user", content: `Classify the intent of this email:\n\n${emailContent}\n\nIntent:` }
+          ],
+          max_tokens: 60,
+          temperature: 0.5,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${this.apiKey}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data.choices[0].message.content.trim();
+    } catch (error) {
+      console.error('Error classifying email intent:', error);
+      throw error;
+    }
+  }
 }
 
 export default new OpenAIService();
